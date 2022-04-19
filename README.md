@@ -2,7 +2,7 @@
 
 - **This project is still under the development. Please don't do anything stupid!**
 
-**MangaCrd** is a Discord bot that allows you to read manga from [MangaDex](https://mangadex.org). It is included as:
+**MangaCord** is a Discord bot that allows you to read manga from [MangaDex](https://mangadex.org). It is included as:
 
 - [MangaCord Discord Bot](https://github.com/reinhello/mangacord/tree/master/bot) ([Eris](https://github.com/abalabahaha/eris))
 - [MangaCord Framework](https://github.com/reinhello/mangacord/tree/master/framework)
@@ -30,7 +30,7 @@ npm ci
 npm start
 ```
 
-Once you run these commands, the bot will start to connecting to Discord gateway and come online.
+Once you run these commands, the bot will start to connect to Discord gateway and online.
 
 ### Additional Commands
 
@@ -40,3 +40,9 @@ These are the additional commands used to test, improve, and fix the code style:
 npm run lint # Runs an ESLint checks
 npm run lint:fix # Runs an ESLint fix
 ```
+
+## Third-Party Resources
+
+These are the third-party resources used in MangaCord. 
+
+- [MangaDex API](https://api.mangadex.org)

@@ -1,0 +1,18 @@
+{
+    "API": {
+        "BASE_URL": "http://localhost",
+        "DISCORD_AUTH": {
+            "CLIENT_ID": "Your Discord bot client ID",
+            "CLIENT_SECRET": "Your Discord bot client secret"
+        }
+    },
+    "BOT": {
+        "ADMIN": ["Your Discord user ID"],
+        "PREFIX": "m!",
+        "TOKEN": "Your Discord bot token"
+    },
+    "MONGODB": {
+        "NAME": "MangaCord",
+        "HOST": "localhost:27017"
+    }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "mangacord-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "ts-node-dev ./src/index.ts",
+    "lint": "eslint --ext \".ts\" . && echo \"\u001b[1m\u001b[32mSUCCESS\u001b[39m\u001b[22m\" || echo \"\u001b[1m\u001b[31mFAILED\u001b[39m\u001b[22m\"",
+    "lint:fix": "eslint --ext \".ts\" . --fix && echo \"\u001b[1m\u001b[32mSUCCESS\u001b[39m\u001b[22m\" || echo \"\u001b[1m\u001b[31mFAILED\u001b[39m\u001b[22m\"",
+    "start": "ts-node ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reinhello/mangacord.git"
+  },
+  "keywords": [
+    "mangacord",
+    "discord-bot",
+    "discord",
+    "eris",
+    "typescript"
+  ],
+  "author": "Reinhardt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reinhello/mangacord/issues"
+  },
+  "homepage": "https://github.com/reinhello/mangacord#readme",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "mangacord-framework": "file:../framework"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
+    "eslint": "^8.11.0",
+    "ts-node": "^10.7.0",
+    "ts-node-dev": "^1.1.8",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.2"
+  }
+}

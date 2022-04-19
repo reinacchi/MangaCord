@@ -112,7 +112,6 @@ class MangaReadPaginator {
 
     updateChapter(): void {
         this.invoker.edit({
-            embed: this.mangaEmbeds[this.mangaEmbed],
             components: [
                 {
                     components: [
@@ -166,7 +165,8 @@ class MangaReadPaginator {
                     ],
                     type: 1
                 }
-            ]
+            ],
+            embed: this.mangaEmbeds[this.mangaEmbed]
         });
 
         this.chapter = this.chapters[this.mangaEmbed];

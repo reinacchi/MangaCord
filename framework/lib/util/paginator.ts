@@ -50,7 +50,8 @@ class MangaReadPaginator {
         const mangaCover = await this.manga.getCovers();
         const mangaAuthor = (await this.manga.authors[0].resolve()).name;
         const mangaArtist = (await this.manga.artists[0].resolve()).name;
-        const tags = this.manga.tags.map((tag) => tag.name).join("`, `");
+        const genre = this.manga.tags.filter((t) => t.group === "genre").map((tag) => tag.name).join("`, `");
+        const theme = this.manga.tags.filter((t) => t.group === "theme").map((tag) => tag.name).join("`, `");
 
         this.mangaEmbeds = this.chapters.map((ch) => {
             return new RichEmbed()
@@ -62,7 +63,8 @@ class MangaReadPaginator {
                 .addField(this.manga.authors.length === 1 ? "Author" : "Authors", `\`${mangaAuthor}\``)
                 .addField(this.manga.artists.length === 1 ? "Artist" : "Artists", `\`${mangaArtist}\``)
                 .addField("Published At", `\`${moment(ch.publishAt).format("On dddd, MMMM Do, YYYY h:mm A")}\``)
-                .addField("Genres", `\`${(tags)}\``)
+                .addField("Genres", `\`${(genre)}\``)
+                .addField("Themes", `\`${(theme)}\``)
                 .addField("Status", `Publication: **${this.manga.year}**, ${this.manga.status.charAt(0).toUpperCase() + this.manga.status.slice(1)}`)
                 .setThumbnail(mangaCover[0].image512);
         });
@@ -168,8 +170,6 @@ class MangaReadPaginator {
             ],
             embed: this.mangaEmbeds[this.mangaEmbed]
         });
-
-        this.chapter = this.chapters[this.mangaEmbed];
     }
 
     updatePage(): void {
@@ -260,7 +260,7 @@ class MangaReadPaginator {
                 case `prevch_${this.authorMessage.id}`:
                     interaction.acknowledge();
 
-                    if (this.mangaEmbed > 1) {
+                    if (this.mangaEmbed >= 1) {
                         this.mangaEmbed--;
                         this.updateChapter();
                     }

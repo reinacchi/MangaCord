@@ -42,7 +42,8 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
     const cover = await manga.getCovers();
     const author = (await manga.authors[0].resolve()).name; // await manga.authors.map(async (a) => await (await a.resolve()).name).join(", ");
     const artist = (await manga.artists[0].resolve()).name; // await manga.artists.map(async (a) => await (await a.resolve()).name).join(", ");
-    const tags = manga.tags.map((t) => t.name).join("`, `");
+    const genre = manga.tags.filter((t) => t.group === "genre").map((t) => t.name).join("`, `");
+    const theme = manga.tags.filter((t) => t.group === "theme").map((t) => t.name).join("`, `");
     const payload = { chapter, chapters, manga };
     const components: ActionRow[] = [
         {
@@ -107,7 +108,8 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
         .addField(manga.authors.length === 1 ? "Author" : "Authors", `\`${author}\``)
         .addField(manga.artists.length === 1 ? "Artist" : "Artists", `\`${artist}\``)
         .addField("Published At", `\`${moment(chapter.publishAt).format("On dddd, MMMM Do, YYYY h:mm A")}\``)
-        .addField("Genres", `\`${tags}\``)
+        .addField("Genres", `\`${genre}\``)
+        .addField("Themes", `\`${theme}\``)
         .addField("Status", `Publication: **${manga.year}**, ${manga.status.charAt(0).toUpperCase() + manga.status.slice(1)}`)
         .setThumbnail(cover[0].image512)
         .setTitle(manga.title);

@@ -170,6 +170,8 @@ class MangaReadPaginator {
             ],
             embed: this.mangaEmbeds[this.mangaEmbed]
         });
+
+        this.chapter = this.chapters[this.mangaEmbed];
     }
 
     updatePage(): void {

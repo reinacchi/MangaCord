@@ -10,7 +10,7 @@ export function aboutCommand(client: MangaCordClient, message: Message<TextableC
     const embed = new RichEmbed()
         .setAuthor(client.user.username)
         .setColor(message.member.guild.roles.get(message.member.guild.members.get(client.user.id).roles[0]).color)
-        .setDescription("Hello world. I am an open-sourced Discord bot and can be found on [GitHub](https://github.com/reinhello/mangacord)")
+        .setDescription("Hello world. I am an open-sourced Discord bot and can be found on [GitHub](https://github.com/reinhello/mangacord).")
         .setTitle("About Me");
 
     return message.channel.createMessage({

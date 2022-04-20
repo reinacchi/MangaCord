@@ -14,7 +14,7 @@ const client = new MangaCordClient(`Bot ${Config.BOT.TOKEN}`, {
 client.config = Config as MangaCordInterfaces.Config;
 client.initClient({
     presence: {
-        status: "idle",
+        status: "dnd",
         activities: {
             name: "MangaCord Nightly",
             type: 0

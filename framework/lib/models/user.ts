@@ -1,38 +1,22 @@
 import { Connection, Model, Schema } from "mongoose";
 
-export interface DiscordUser {
-    avatar: string;
-    discriminator: string;
-    id: string;
-    username: string;
+export interface UserManga {
+    bookmarks: string[];
 }
 
 export interface User {
     admin: boolean;
-    badge: UserBadge;
-    discordUser: DiscordUser;
-}
+    createdAt: Date;
+    id: string;
+    manga: UserManga;
+    premium: boolean;
 
-export interface UserBadge {
-    admin: boolean;
-    mod: boolean;
-    owner: boolean;
-    supporter: boolean;
-    verified: boolean;
 }
 
 const UserSchema = new Schema<User>({
     admin: {
         required: true,
         type: Boolean
-    },
-    badge: {
-        required: true,
-        type: Object
-    },
-    discordUser: {
-        required: true,
-        type: Object
     }
 });
 

@@ -101,16 +101,16 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
     ];
 
     const embed = new RichEmbed()
-        .setAuthor(`${chapter.title} | Ch. ${chapter.chapter}`, `https://mangadex.org/chapter/${chapter.id}`)
+        .setAuthor(chapter.title !== null || undefined ? `${chapter.title} | Ch. ${chapter.chapter}` : `Ch. ${chapter.chapter}`, `https://mangadex.org/chapter/${chapter.id}`)
         .setURL(`https://mangadex.org/title/${manga.id}`)
         .setColor(message.member.guild.roles.get(message.member.guild.members.get(client.user.id).roles[0]).color)
         .setDescription(manga.description)
         .addField(manga.authors.length === 1 ? "Author" : "Authors", `\`${author}\``)
         .addField(manga.artists.length === 1 ? "Artist" : "Artists", `\`${artist}\``)
         .addField("Published At", `\`${moment(chapter.publishAt).format("On dddd, MMMM Do, YYYY h:mm A")}\``)
-        .addField("Genres", `\`${genre}\``)
-        .addField("Themes", `\`${theme}\``)
-        .addField("Status", `Publication: **${manga.year}**, ${manga.status.charAt(0).toUpperCase() + manga.status.slice(1)}`)
+        .addField("Genres", `\`${genre || "None"}\``)
+        .addField("Themes", `\`${theme || "None"}\``)
+        .addField("Status", `Publication: **${manga.year || "Unknown"}**, ${manga.status.charAt(0).toUpperCase() + manga.status.slice(1)}`)
         .setThumbnail(cover[0].image512)
         .setTitle(manga.title);
 

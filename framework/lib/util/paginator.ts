@@ -55,7 +55,7 @@ class MangaReadPaginator {
 
         this.mangaEmbeds = this.chapters.map((ch) => {
             return new RichEmbed()
-                .setAuthor(`${ch.title} | Ch. ${ch.chapter}`, `https://mangadex.org/chapter/${ch.id}`)
+                .setAuthor(ch.title !== null || undefined ? `${ch.title} | Ch. ${ch.chapter}` : `Ch. ${ch.chapter}`, `https://mangadex.org/chapter/${ch.id}`)
                 .setTitle(this.manga.title)
                 .setURL(`https://mangadex.org/title/${this.manga.id}`)
                 .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
@@ -63,9 +63,9 @@ class MangaReadPaginator {
                 .addField(this.manga.authors.length === 1 ? "Author" : "Authors", `\`${mangaAuthor}\``)
                 .addField(this.manga.artists.length === 1 ? "Artist" : "Artists", `\`${mangaArtist}\``)
                 .addField("Published At", `\`${moment(ch.publishAt).format("On dddd, MMMM Do, YYYY h:mm A")}\``)
-                .addField("Genres", `\`${(genre)}\``)
-                .addField("Themes", `\`${(theme)}\``)
-                .addField("Status", `Publication: **${this.manga.year}**, ${this.manga.status.charAt(0).toUpperCase() + this.manga.status.slice(1)}`)
+                .addField("Genres", `\`${(genre || "None")}\``)
+                .addField("Themes", `\`${(theme || "None")}\``)
+                .addField("Status", `Publication: **${this.manga.year || "Unknown"}**, ${this.manga.status.charAt(0).toUpperCase() + this.manga.status.slice(1)}`)
                 .setThumbnail(mangaCover[0].image512);
         });
 
@@ -77,7 +77,7 @@ class MangaReadPaginator {
         this.embeds = this.pages.map((page, index) => {
             return new RichEmbed()
                 .setAuthor(this.manga.title, `https://mangadex.org/title/${this.manga.id}`)
-                .setTitle(`${this.chapter.title} | Ch. ${this.chapter.chapter}`)
+                .setTitle(this.chapter.title !== null || undefined ? `${this.chapter.title} | Ch. ${this.chapter.chapter}` : `Ch. ${this.chapter.chapter}`)
                 .setURL(`https://mangadex.org/chapter/${this.chapter.id}`)
                 .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
                 .setImage(page)

@@ -4,7 +4,7 @@ import { RichEmbed } from "../util";
 import { Manga } from "mangadex-full-api";
 import moment from "moment";
 import yargs from "yargs/yargs";
-import { createMangaRead } from "../util/paginator";
+import { createMangaRead } from "../util/readmangapaginator";
 
 export function aboutCommand(client: MangaCordClient, message: Message<TextableChannel>) {
     const embed = new RichEmbed()

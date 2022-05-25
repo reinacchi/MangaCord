@@ -1,7 +1,12 @@
 import { Connection, Model, Schema } from "mongoose";
 
 export interface UserManga {
-    bookmarks: string[];
+    bookmarks: UserMangaBookmark[];
+}
+
+export interface UserMangaBookmark {
+    id: string;
+    lastChapter: string;
 }
 
 export interface User {
@@ -15,6 +20,24 @@ export interface User {
 
 const UserSchema = new Schema<User>({
     admin: {
+        required: true,
+        type: Boolean
+    },
+    createdAt: {
+        required: true,
+        type: Date
+    },
+    id: {
+        required: true,
+        type: String
+    },
+    manga: {
+        bookmarks: {
+            required: true,
+            type: Array
+        }
+    },
+    premium: {
         required: true,
         type: Boolean
     }

@@ -143,7 +143,7 @@ export async function searchMangaCommand(client: MangaCordClient, message: Messa
     const theme = manga.tags.filter((t) => t.group === "theme").map((t) => t.name).join("`, `");
 
     const embed = new RichEmbed()
-        .setAuthor(mangaResults.length === 1 ? `Result 1/1` : `Results 1/${mangaResults.length}`)
+        .setAuthor(mangaResults.length === 1 ? "Result 1/1" : `Results 1/${mangaResults.length}`)
         .setURL(`https://mangadex.org/title/${manga.id}`)
         .setColor(message.member.guild.roles.get(message.member.guild.members.get(client.user.id).roles[0]).color)
         .setDescription(manga.description)

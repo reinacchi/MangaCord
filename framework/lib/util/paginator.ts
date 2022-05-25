@@ -55,7 +55,7 @@ class MangaReadPaginator {
 
         this.mangaEmbeds = this.chapters.map((ch) => {
             return new RichEmbed()
-                .setAuthor(ch.title !== null || undefined ? `${ch.title} | Ch. ${ch.chapter}` : `Ch. ${ch.chapter}`, `https://mangadex.org/chapter/${ch.id}`)
+                .setAuthor(ch.title !== null && ch.title.length !== 0 ? `${ch.title} | Ch. ${ch.chapter}` : `Ch. ${ch.chapter}`, `https://mangadex.org/chapter/${ch.id}`)
                 .setTitle(this.manga.title)
                 .setURL(`https://mangadex.org/title/${this.manga.id}`)
                 .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
@@ -77,7 +77,7 @@ class MangaReadPaginator {
         this.embeds = this.pages.map((page, index) => {
             return new RichEmbed()
                 .setAuthor(this.manga.title, `https://mangadex.org/title/${this.manga.id}`)
-                .setTitle(this.chapter.title !== null || undefined ? `${this.chapter.title} | Ch. ${this.chapter.chapter}` : `Ch. ${this.chapter.chapter}`)
+                .setTitle( this.chapter.title !== null && this.chapter.title.length !== 0 ? `${this.chapter.title} | Ch. ${this.chapter.chapter}` : `Ch. ${this.chapter.chapter}`)
                 .setURL(`https://mangadex.org/chapter/${this.chapter.id}`)
                 .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
                 .setImage(page)
@@ -159,6 +159,12 @@ class MangaReadPaginator {
                             type: 2
                         },
                         {
+                            custom_id: `bookmark_${this.authorMessage.id}`,
+                            label: "Bookmark",
+                            style: 1,
+                            type: 2
+                        },
+                        {
                             custom_id: `dismiss_${this.authorMessage.id}`,
                             label: "Dismiss",
                             style: 4,
@@ -231,6 +237,19 @@ class MangaReadPaginator {
 
                     this.embed = 1;
                     this.updateChapter();
+
+                    break;
+                case `bookmark_${this.authorMessage.id}`:
+                    await this.client.manager.saveManga(this.authorMessage.author.id, this.manga);
+
+                    interaction.createMessage({
+                        embeds: [
+                            new RichEmbed()
+                                .setDescription(`Manga \`${this.manga.title}\` Successfully saved to your bookmark library!`)
+                                .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                        ],
+                        flags: 64
+                    });
 
                     break;
                 case `dismiss_${this.authorMessage.id}`:

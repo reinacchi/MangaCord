@@ -6,6 +6,7 @@ import { MangaCordDatabase } from "./database";
 import { join } from "path";
 import { readdirSync } from "fs";
 import { MessageCollector, MessageCollectorOptions } from "./util/messagecollector";
+import { MangaCordManager } from "./manager";
 
 interface InitClientOptions {
     presence?: {
@@ -22,6 +23,8 @@ export class MangaCordClient extends Client {
     public database: Connection;
 
     public events = new Collection<Event>();
+
+    public manager = new MangaCordManager(this);
 
     public awaitChannelMessages(channel: TextableChannel, options: MessageCollectorOptions) {
         return new MessageCollector(channel, options).run();

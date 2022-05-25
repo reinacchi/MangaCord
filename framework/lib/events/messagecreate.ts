@@ -1,15 +1,37 @@
 import { Event } from "../interfaces";
 import { Logger } from "../util";
+import { MangaCordMongoModels } from "../commands";
 import { Message, TextableChannel } from "eris";
-import { GuildModel } from "../models";
+import { GuildModel, UserModel } from "../models";
 
 export const event: Event = {
     name: "messageCreate",
     run: async (client, message: Message<TextableChannel>) => {
-        const model = GuildModel.createModel(client.database);
-        const guildData = await model.findOne({ id: message.guildID });
+        const guildModel = GuildModel.createModel(client.database);
+        const userModel = UserModel.createUserModel(client.database);
+        const guildData = await guildModel.findOne({ id: message.guildID });
+        const userData = await userModel.findOne({ id: message.author.id });
 
         if (!message.content.startsWith(guildData.settings.prefix) || message.author.bot) return;
+
+        if (!userData) {
+            message.channel.createMessage({
+                content: "Is this your first time using the bot? If yes, I have created a database to store your necessary data for me to work. Please enjoy!",
+                messageReference: {
+                    messageID: message.id
+                }
+            });
+
+            return MangaCordMongoModels.createUserModel(client.database, {
+                admin: false,
+                createdAt: new Date(),
+                id: message.author.id,
+                manga: {
+                    bookmarks: []
+                },
+                premium: false
+            });
+        }
 
         const messageArray = message.content.split(" ");
         const args = messageArray.slice(1);

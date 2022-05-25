@@ -90,6 +90,12 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
                     type: 2
                 },
                 {
+                    custom_id: `bookmark_${message.id}`,
+                    label: "Bookmark",
+                    style: 1,
+                    type: 2
+                },
+                {
                     custom_id: `dismiss_${message.id}`,
                     label: "Dismiss",
                     style: 4,
@@ -101,7 +107,7 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
     ];
 
     const embed = new RichEmbed()
-        .setAuthor(chapter.title !== null || undefined ? `${chapter.title} | Ch. ${chapter.chapter}` : `Ch. ${chapter.chapter}`, `https://mangadex.org/chapter/${chapter.id}`)
+        .setAuthor(chapter.title !== null && chapter.title.length !== 0 ? `${chapter.title} | Ch. ${chapter.chapter}` : `Ch. ${chapter.chapter}`, `https://mangadex.org/chapter/${chapter.id}`)
         .setURL(`https://mangadex.org/title/${manga.id}`)
         .setColor(message.member.guild.roles.get(message.member.guild.members.get(client.user.id).roles[0]).color)
         .setDescription(manga.description)

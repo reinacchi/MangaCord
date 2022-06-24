@@ -31,16 +31,16 @@ for (const key in folders) {
         object = { ...object, ...content };
     }
 
-    if (!existsSync(join(__dirname, "../locales"))) {
-        mkdirSync(join(__dirname, "../locales"));
+    if (!existsSync(join(__dirname, "../Locales"))) {
+        mkdirSync(join(__dirname, "../Locales"));
     }
 
-    if (existsSync(join(__dirname, `../locales/${folder}.json`))) {
-        unlinkSync(join(__dirname, `../locales/${folder}.json`));
+    if (existsSync(join(__dirname, `../Locales/${folder}.json`))) {
+        unlinkSync(join(__dirname, `../Locales/${folder}.json`));
     }
 
     writeFileSync(
-        join(__dirname, `../locales/${folder}.json`),
+        join(__dirname, `../Locales/${folder}.json`),
         JSON.stringify(object)
     );
 }

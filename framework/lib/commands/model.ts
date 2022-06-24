@@ -1,5 +1,5 @@
 import { Connection } from "mongoose";
-import { GuildModel, UserModel } from "../models";
+import { GuildModel, UserModel } from "../Models";
 
 export function createGuildModel(connection: Connection, body: GuildModel.Guild) {
     const model = GuildModel.createModel(connection);

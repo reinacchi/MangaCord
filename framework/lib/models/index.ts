@@ -1,2 +1,2 @@
-export * as GuildModel from "./guild";
-export * as UserModel from "./user";
+export * as GuildModel from "./Guild";
+export * as UserModel from "./User";

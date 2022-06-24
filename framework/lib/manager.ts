@@ -1,7 +1,7 @@
 import { Manga } from "mangadex-full-api";
-import { MangaCordClient } from "./client";
-import { UserModel } from "./models";
-import { RichEmbed } from "./util";
+import { MangaCordClient } from "./Client";
+import { UserModel } from "./Models";
+import { RichEmbed } from "./Util";
 
 export class MangaCordManager {
     client: MangaCordClient;

@@ -1,7 +1,7 @@
 import { AdvancedMessageContent, ComponentInteraction, EmbedOptions, Message, TextableChannel } from "eris";
 import { Chapter, Manga } from "mangadex-full-api";
-import { MangaCordClient } from "../client";
-import { RichEmbed } from "./richembed";
+import { MangaCordClient } from "../Client";
+import { RichEmbed } from "../Util/RichEmbed";
 import moment from "moment";
 
 interface MangaReadPayload {

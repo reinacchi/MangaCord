@@ -1,8 +1,8 @@
 import { MangaCordCommand, MangaCordInterfaces } from "mangacord-framework";
 
 export const command: MangaCordInterfaces.Command = {
-    name: "read",
+    name: "search",
     run: async (payload) => {
-        return new MangaCordCommand(payload).readMangaCommand();
+        return new MangaCordCommand(payload).searchMangaCommand();
     }
-};
+}

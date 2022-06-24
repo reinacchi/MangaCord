@@ -1,3 +1,3 @@
-export * from "./command";
-export * from "./config";
-export * from "./event";
+export * from "./Command";
+export * from "./Config";
+export * from "./Event";

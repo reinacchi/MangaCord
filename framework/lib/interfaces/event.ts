@@ -1,5 +1,5 @@
 import { ClientEvents } from "eris";
-import { MangaCordClient } from "../client";
+import { MangaCordClient } from "../Client";
 
 interface EventRun {
     (client: MangaCordClient, ...args: any);

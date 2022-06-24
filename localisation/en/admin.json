@@ -1,0 +1,4 @@
+{
+    "admin.config.perms": "You need the **Manage Server** permission to continue",
+    "admin.config.success.lang": "Language has been set to {locale}"
+}

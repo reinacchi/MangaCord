@@ -1,13 +1,13 @@
-import { MangaCordClient } from "../client";
+import { MangaCordClient } from "../Client";
 import { Message, TextableChannel } from "eris";
 
-interface CommandRunPayload {
+export interface CommandRunPayload {
     client: MangaCordClient;
     message: Message<TextableChannel>;
     args: Array<string>;
 }
 
-interface CommandRun {
+export interface CommandRun {
     (payload: CommandRunPayload);
 }
 

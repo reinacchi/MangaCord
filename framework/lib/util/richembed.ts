@@ -6,7 +6,7 @@ import {
     EmbedImage,
     EmbedOptions,
 } from "eris";
-import { Util } from "./util";
+import { Util } from "./Util";
 
 const HEX_REGEX = /^#?([a-fA-F0-9]{6})$/;
 const URL_REGEX =

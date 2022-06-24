@@ -1,6 +1,6 @@
-export * from "./client";
-export * from "./commands";
-export * from "./database";
-export * as MangaCordInterfaces from "./interfaces";
-export * as MangaCordModels from "./models";
-export * as MangaCordUtils from "./util";
+export * from "./Client";
+export * from "./Commands";
+export * from "./Database";
+export * as MangaCordInterfaces from "./Interfaces";
+export * as MangaCordModels from "./Models";
+export * as MangaCordUtils from "./Util";

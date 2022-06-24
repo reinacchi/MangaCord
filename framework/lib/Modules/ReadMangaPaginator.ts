@@ -58,7 +58,7 @@ class MangaReadPaginator {
                 .setAuthor(ch.title !== null && ch.title.length !== 0 ? `${ch.title} | Ch. ${ch.chapter}` : `Ch. ${ch.chapter}`, `https://mangadex.org/chapter/${ch.id}`)
                 .setTitle(this.manga.title)
                 .setURL(`https://mangadex.org/title/${this.manga.id}`)
-                .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                .setColor(0xED9A00)
                 .setDescription(this.manga.description)
                 .addField(this.manga.authors.length === 1 ? "Author" : "Authors", `\`${mangaAuthor}\``)
                 .addField(this.manga.artists.length === 1 ? "Artist" : "Artists", `\`${mangaArtist}\``)
@@ -79,7 +79,7 @@ class MangaReadPaginator {
                 .setAuthor(this.manga.title, `https://mangadex.org/title/${this.manga.id}`)
                 .setTitle( this.chapter.title !== null && this.chapter.title.length !== 0 ? `${this.chapter.title} | Ch. ${this.chapter.chapter}` : `Ch. ${this.chapter.chapter}`)
                 .setURL(`https://mangadex.org/chapter/${this.chapter.id}`)
-                .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                .setColor(0xED9A00)
                 .setImage(page)
                 .setFooter(`Page ${index + 1} / ${this.pages.length}`);
         });
@@ -246,7 +246,7 @@ class MangaReadPaginator {
                         embeds: [
                             new RichEmbed()
                                 .setDescription(`Manga \`${this.manga.title}\` Successfully saved to your bookmark library!`)
-                                .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                                .setColor(0xED9A00)
                         ],
                         flags: 64
                     });
@@ -304,7 +304,7 @@ class MangaReadPaginator {
                         embeds: [
                             new RichEmbed()
                                 .setDescription("Please enter the chapter you want to see. You've got **30 seconds** before I ignore you")
-                                .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                                .setColor(0xED9A00)
                         ],
                         flags: 64
                     });
@@ -320,7 +320,7 @@ class MangaReadPaginator {
                                 embeds: [
                                     new RichEmbed()
                                         .setDescription("Please enter a valid chapter")
-                                        .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                                        .setColor(0xED9A00)
                                 ],
                                 flags: 64
                             });
@@ -334,7 +334,7 @@ class MangaReadPaginator {
                                 embeds: [
                                     new RichEmbed()
                                         .setDescription(`Cannot find chapter **${m.content}**. Please provide a valid chapter`)
-                                        .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                                        .setColor(0xED9A00)
                                 ],
                                 flags: 64
                             });
@@ -354,7 +354,7 @@ class MangaReadPaginator {
                             embeds: [
                                 new RichEmbed()
                                     .setDescription("**30 seconds** passed and I've not received any response from you...")
-                                    .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                                    .setColor(0xED9A00)
                             ],
                             flags: 64
                         });
@@ -366,7 +366,7 @@ class MangaReadPaginator {
                         embeds: [
                             new RichEmbed()
                                 .setDescription(`This manga has a total pages of **${this.pages.length}**. Please enter the chapter you want to see. You've got **30 seconds** before I ignore you`)
-                                .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                                .setColor(0xED9A00)
                         ],
                         flags: 64
                     });
@@ -382,7 +382,7 @@ class MangaReadPaginator {
                                 embeds: [
                                     new RichEmbed()
                                         .setDescription("Please enter a valid page")
-                                        .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                                        .setColor(0xED9A00)
                                 ],
                                 flags: 64
                             });
@@ -396,7 +396,7 @@ class MangaReadPaginator {
                                 embeds: [
                                     new RichEmbed()
                                         .setDescription(`This manga only has **1-${this.pages.length}** pages. Please enter a valid page`)
-                                        .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                                        .setColor(0xED9A00)
                                 ],
                                 flags: 64
                             });
@@ -408,7 +408,7 @@ class MangaReadPaginator {
                                 embeds: [
                                     new RichEmbed()
                                         .setDescription(`This manga only has **1-${this.pages.length}** pages. Please enter a valid page`)
-                                        .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                                        .setColor(0xED9A00)
                                 ],
                                 flags: 64
                             });
@@ -428,7 +428,7 @@ class MangaReadPaginator {
                             embeds: [
                                 new RichEmbed()
                                     .setDescription("**30 seconds** passed and I've not received any response from you...")
-                                    .setColor(this.authorMessage.member.guild.roles.get(this.authorMessage.member.guild.members.get(this.client.user.id).roles[0]).color)
+                                    .setColor(0xED9A00)
                             ],
                             flags: 64
                         });

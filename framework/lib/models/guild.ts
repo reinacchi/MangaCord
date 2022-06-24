@@ -1,14 +1,17 @@
 import { Connection, Model, Schema } from "mongoose";
 
+type Locale = "en" | "id";
+
 export interface Guild {
-    createdAt: Date;
-    id: string;
-    name: string;
-    settings: GuildSettings;
+    createdAt?: Date;
+    id?: string;
+    name?: string;
+    settings?: GuildSettings;
 }
 
 export interface GuildSettings {
-    prefix: string;
+    locale?: Locale;
+    prefix?: string;
 }
 
 const GuildSchema = new Schema<Guild>({
@@ -25,6 +28,11 @@ const GuildSchema = new Schema<Guild>({
         type: String
     },
     settings: {
+        locale: {
+            default:"en",
+            required: true,
+            type: "String"
+        },
         prefix: {
             required: true,
             type: String

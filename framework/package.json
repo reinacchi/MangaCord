@@ -9,6 +9,7 @@
   "types": "src/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "build:locale": "ts-node ./lib/modules/LocalisationCompiler.ts",
     "lint": "eslint --ext \".ts\" --ignore-path .gitignore . && echo \"\u001b[1m\u001b[32mSUCCESS\u001b[39m\u001b[22m\" || echo \"\u001b[1m\u001b[31mFAILED\u001b[39m\u001b[22m\"",
     "lint:fix": "eslint --ext \".ts\" --ignore-path .gitignore . --fix && echo \"\u001b[1m\u001b[32mSUCCESS\u001b[39m\u001b[22m\" || echo \"\u001b[1m\u001b[31mFAILED\u001b[39m\u001b[22m\""
   },
@@ -30,6 +31,8 @@
     "axios": "^0.26.1",
     "chalk": "^4.1.2",
     "eris": "^0.16.1",
+    "i18next": "^21.8.10",
+    "i18next-icu": "^2.0.3",
     "mangadex-full-api": "^5.11.1",
     "moment": "^2.29.1",
     "mongoose": "^6.2.7",
@@ -42,6 +45,7 @@
     "eslint": "^8.11.0",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "ts-node": "^10.8.1",
     "tslib": "^2.3.1",
     "typescript": "^4.6.2"
   }

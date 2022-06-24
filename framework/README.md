@@ -7,5 +7,6 @@
 **Node v16 is recommended to run**
 
 ```bash
+npm run build:locale # Compile all localisation
 npm run build # Build and compile all the files
 ```

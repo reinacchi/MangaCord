@@ -4,8 +4,8 @@
 
 **MangaCord** is a Discord bot that allows you to read manga from [MangaDex](https://mangadex.org). It is included as:
 
-- [MangaCord Discord Bot](https://github.com/reinhello/mangacord/tree/master/bot) ([Eris](https://github.com/abalabahaha/eris))
-- [MangaCord Framework](https://github.com/reinhello/mangacord/tree/master/framework)
+- [MangaCord Discord Bot](https://github.com/reinhello/MangaCord/tree/master/bot) ([Eris](https://github.com/abalabahaha/eris))
+- [MangaCord Framework](https://github.com/reinhello/MangaCord/tree/master/framework)
 
 ## Developing
 
@@ -21,10 +21,13 @@ Before you begin, make sure to clone the repository and fill out the configurati
 
 
 ```bash
+# Build the framework
 cd ./framework
 npm ci
+npm run build:locale
 npm run build
 
+# Start the bot
 cd ../bot
 npm ci
 npm start

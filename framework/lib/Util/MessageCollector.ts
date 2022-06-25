@@ -12,26 +12,48 @@ export interface MessageCollectorOptions {
 const MessageCollectorDefaults = {
     count: 10,
     timeout: 10000,
-  filter: (_msg) => true, // eslint-disable-line
+    filter: (_msg) => true, // eslint-disable-line
 };
 
 /**
  * Creates a special built-in Message collector
  */
 export class MessageCollector extends EventEmitter {
-    channel: Eris.TextableChannel;
 
-    timeout: number;
+    /**
+     * The channel to collect messages
+     */
+    public channel: Eris.TextableChannel;
 
-    message: Eris.Message<Eris.TextableChannel>;
+    /**
+     * The timeout for the message collector
+     */
+    public timeout: number;
 
-    count: number;
+    /**
+     * The collected Eris' Message
+     */
+    public message: Eris.Message<Eris.TextableChannel>;
 
-    filter: ((_msg: any) => boolean) & ((msg: Eris.Message<Eris.TextableChannel>) => boolean);
+    /**
+     * The length of messages collected
+     */
+    public count: number;
 
-    collected: Eris.Collection<Eris.Message<Eris.TextableChannel>>;
+    /**
+     * Optional adjustable filter for the message collector
+     */
+    public filter: ((_msg: any) => boolean) & ((msg: Eris.Message<Eris.TextableChannel>) => boolean);
 
-    running: boolean;
+    /**
+     * The collection of collected messages
+     */
+    public collected: Eris.Collection<Eris.Message<Eris.TextableChannel>>;
+
+    /**
+     * Whether the message collector is still running or not
+     */
+    public running: boolean;
 
     /**
    * Construct a new MessageCollector
@@ -57,14 +79,14 @@ export class MessageCollector extends EventEmitter {
         this.onUpdate = this.onUpdate.bind(this);
     }
 
-    _onMessageCreate(msg: Eris.Message<Eris.TextableChannel>) {
+    private _onMessageCreate(msg: Eris.Message<Eris.TextableChannel>) {
         if (!this.running) return;
         if (this.channel.id !== msg.channel.id) return;
         if (!this.filter(msg)) return;
         this.emit("collect", msg);
     }
 
-    _onMessageUpdate(msg: Eris.Message<Eris.TextableChannel>, oldMsg: Eris.Message<Eris.TextableChannel>) {
+    private _onMessageUpdate(msg: Eris.Message<Eris.TextableChannel>, oldMsg: Eris.Message<Eris.TextableChannel>) {
         if (!this.running) return;
         if (this.channel.id !== msg.channel.id) return;
         if (!this.filter(msg)) return this.collected.remove(msg);
@@ -72,16 +94,17 @@ export class MessageCollector extends EventEmitter {
         this.emit("update", msg);
     }
 
-    _onMessageDelete(msg: Eris.Message<Eris.TextableChannel>) {
+    private _onMessageDelete(msg: Eris.Message<Eris.TextableChannel>) {
         if (!this.running) return;
         if (!this.collected.has(msg.id)) return;
         this.emit("delete", msg);
     }
 
     /**
-   * Initialize and run the Message collector
-   */
-    run(): Promise<MessageCollector> {
+     * Runs the message collector
+     * @returns {Promise<MessageCollector>}
+     */
+    public run(): Promise<MessageCollector> {
         this.running = true;
         return new Promise((res) => {
             this.channel.client.setMaxListeners(this.getMaxListeners() + 1);
@@ -100,9 +123,10 @@ export class MessageCollector extends EventEmitter {
     }
 
     /**
-   * Destroy and stop the Message collector
-   */
-    stop(): MessageCollector {
+     * Stops the message collector
+     * @returns {MessageCollector>}
+     */
+    public stop(): MessageCollector {
         this.running = false;
         this.channel.client.setMaxListeners(this.getMaxListeners() - 1);
         this.channel.client.off("messageCreate", this._onMessageCreate);
@@ -118,28 +142,28 @@ export class MessageCollector extends EventEmitter {
     }
 
     /**
-   * Create a collecting message event
-   * @param msg The collected message
-   */
-    onCollect(msg: Eris.Message<Eris.TextableChannel>): void {
+     * Collect messages
+     * @param msg The collected message
+     */
+    public onCollect(msg: Eris.Message<Eris.TextableChannel>): void {
         this.collected.add(msg);
         this.message = msg;
         if (this.count && this.collected.size === this.count) this.stop();
     }
 
     /**
-   * Create an update collected message event
-   * @param msg The updated message
-   */
-    onUpdate(msg: Eris.Message<Eris.TextableChannel>): void {
+     * Update collected messages
+     * @param msg The updated message
+     */
+    public onUpdate(msg: Eris.Message<Eris.TextableChannel>): void {
         this.collected.update(msg);
     }
 
     /**
-   * Create a deleted message event
-   * @param msg The deleted message
-   */
-    onDelete(msg: Eris.Message<Eris.TextableChannel>): void {
+     * Delete messages from the collection
+     * @param msg The deleted message
+     */
+    public onDelete(msg: Eris.Message<Eris.TextableChannel>): void {
         this.collected.remove(msg);
     }
 }

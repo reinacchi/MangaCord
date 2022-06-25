@@ -6,7 +6,14 @@ import { createMangaRead } from "../../Modules/ReadMangaPaginator";
 import moment from "moment";
 import yargs from "yargs/yargs";
 
-export async function readMangaCommand(client: MangaCordClient, message: Message<TextableChannel>, args: string[]) {
+/**
+ * Sends `read` command
+ * @param client MangaCord client
+ * @param message Eris message
+ * @param args Message arguments
+ * @returns {Promise<Message<TextableChannel>>}
+ */
+export async function readMangaCommand(client: MangaCordClient, message: Message<TextableChannel>, args: string[]): Promise<Message<TextableChannel>> {
     const flag = await yargs(args.slice(0)).array(["manga", "chapter"]).argv;
     const manga = await Manga.getByQuery(flag.manga.join(" "));
     const chapters = await manga.getFeed({ limit: Infinity, order: { chapter: "asc" }, translatedLanguage: ["en"] });
@@ -84,7 +91,7 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
     const embed = new RichEmbed()
         .setAuthor(chapter.title !== null && chapter.title.length !== 0 ? `${chapter.title} | Ch. ${chapter.chapter}` : `Ch. ${chapter.chapter}`, `https://mangadex.org/chapter/${chapter.id}`)
         .setURL(`https://mangadex.org/title/${manga.id}`)
-        .setColor(0xED9A00)
+        .setColour(0xED9A00)
         .setDescription(manga.description)
         .addField(manga.authors.length === 1 ? client.translate("manga.author") : client.translate("manga.authors"), `\`${author}\``)
         .addField(manga.artists.length === 1 ? client.translate("manga.artist") : client.translate("manga.artists"), `\`${artist}\``)

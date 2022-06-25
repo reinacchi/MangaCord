@@ -15,16 +15,16 @@ export async function searchMangaCommand(client: MangaCordClient, message: Messa
     const theme = manga.tags.filter((t) => t.group === "theme").map((t) => t.name).join("`, `");
 
     const embed = new RichEmbed()
-        .setAuthor(mangaResults.length === 1 ? "Result 1/1" : `Results 1/${mangaResults.length}`)
+        .setAuthor(mangaResults.length === 1 ? client.translate("manga.result", { firstIndex: 1, lastIndex: 2 }) : client.translate("manga.result", { firstIndex: 1, lastIndex: mangaResults.length } ))
         .setURL(`https://mangadex.org/title/${manga.id}`)
         .setColor(0xED9A00)
         .setDescription(manga.description)
-        .addField(manga.authors.length === 1 ? "Author" : "Authors", `\`${author}\``)
-        .addField(manga.artists.length === 1 ? "Artist" : "Artists", `\`${artist}\``)
-        .addField("Chapters", `\`${chapters.length}\``)
-        .addField("Genres", `\`${genre || "None"}\``)
-        .addField("Themes", `\`${theme || "None"}\``)
-        .addField("Status", `Publication: **${manga.year || "Unknown"}**, ${manga.status.charAt(0).toUpperCase() + manga.status.slice(1)}`)
+        .addField(manga.authors.length === 1 ? client.translate("manga.author") : client.translate("manga.authors"), `\`${author}\``)
+        .addField(manga.artists.length === 1 ? client.translate("manga.artist") : client.translate("manga.artists"), `\`${artist}\``)
+        .addField(client.translate("manga.chapters"), `\`${chapters.length}\``)
+        .addField(client.translate("manga.genres"), `\`${genre || client.translate("manga.none")}\``)
+        .addField(client.translate("manga.themes"), `\`${theme || client.translate("manga.none")}\``)
+        .addField(client.translate("manga.status"), client.translate("manga.status.publication", { status: manga.status.charAt(0).toUpperCase() + manga.status.slice(1), year: manga.year || client.translate("manga.unknown") }))
         .setThumbnail(cover[0].image512)
         .setTitle(manga.title);
 

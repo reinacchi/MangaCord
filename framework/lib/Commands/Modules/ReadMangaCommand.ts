@@ -22,31 +22,31 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
             components: [
                 {
                     custom_id: `oldch_${message.id}`,
-                    label: "First Chapter",
+                    label: client.translate("manga.chapter.first"),
                     style: 1,
                     type: 2
                 },
                 {
                     custom_id: `prevch_${message.id}`,
-                    label: "Previous Chapter",
+                    label: client.translate("manga.chapter.previous"),
                     style: 2,
                     type: 2
                 },
                 {
                     custom_id: `read_${message.id}`,
-                    label: "Read",
+                    label: client.translate("manga.read"),
                     style: 3,
                     type: 2
                 },
                 {
                     custom_id: `nextch_${message.id}`,
-                    label: "Next Chapter",
+                    label: client.translate("manga.chapter.next"),
                     style: 2,
                     type: 2
                 },
                 {
                     custom_id: `newch_${message.id}`,
-                    label: "Latest Chapter",
+                    label: client.translate("manga.chapter.latest"),
                     style: 1,
                     type: 2
                 },
@@ -57,19 +57,19 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
             components: [
                 {
                     custom_id: `inputch_${message.id}`,
-                    label: "Enter Chapter",
+                    label: client.translate("manga.chapter.enter"),
                     style: 2,
                     type: 2
                 },
                 {
                     custom_id: `bookmark_${message.id}`,
-                    label: "Bookmark",
+                    label: client.translate("manga.bookmark"),
                     style: 1,
                     type: 2
                 },
                 {
                     custom_id: `dismiss_${message.id}`,
-                    label: "Dismiss",
+                    label: client.translate("manga.dismiss"),
                     style: 4,
                     type: 2
                 }
@@ -86,12 +86,12 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
         .setURL(`https://mangadex.org/title/${manga.id}`)
         .setColor(0xED9A00)
         .setDescription(manga.description)
-        .addField(manga.authors.length === 1 ? "Author" : "Authors", `\`${author}\``)
-        .addField(manga.artists.length === 1 ? "Artist" : "Artists", `\`${artist}\``)
-        .addField("Published At", `\`${moment(chapter.publishAt).format("On dddd, MMMM Do, YYYY h:mm A")}\``)
-        .addField("Genres", `\`${genre || "None"}\``)
-        .addField("Themes", `\`${theme || "None"}\``)
-        .addField("Status", `Publication: **${manga.year || "Unknown"}**, ${manga.status.charAt(0).toUpperCase() + manga.status.slice(1)}`)
+        .addField(manga.authors.length === 1 ? client.translate("manga.author") : client.translate("manga.authors"), `\`${author}\``)
+        .addField(manga.artists.length === 1 ? client.translate("manga.artist") : client.translate("manga.artists"), `\`${artist}\``)
+        .addField(client.translate("manga.published"), `\`${client.translate("manga.date", { date: moment(chapter.publishAt).format("dddd, MMMM Do, YYYY h:mm A") })}\``)
+        .addField(client.translate("manga.genres"), `\`${genre || client.translate("manga.none")}\``)
+        .addField(client.translate("manga.themes"), `\`${theme || client.translate("manga.none")}\``)
+        .addField(client.translate("manga.status"), client.translate("manga.status.publication", { status: manga.status.charAt(0).toUpperCase() + manga.status.slice(1), year: manga.year || client.translate("manga.unknown") }))
         .setThumbnail(cover[0].image512)
         .setTitle(manga.title);
 

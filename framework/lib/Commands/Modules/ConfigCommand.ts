@@ -18,7 +18,7 @@ export async function configCommand(client: MangaCordClient, message: Message<Te
 
     if (!message.member.permissions.has("manageGuild")) {
         return message.channel.createMessage({
-            embed: embed.setDescription(await client.translate("admin.config.perms")),
+            embed: embed.setDescription(client.translate("admin.config.perms")),
             messageReference
         });
     }
@@ -33,7 +33,7 @@ export async function configCommand(client: MangaCordClient, message: Message<Te
                 }
 
                 message.channel.createMessage({
-                    embed: embed.setDescription(await client.translateLocale(flag.value[0] as Locale, "admin.config.success.lang", { locale: `\`${convertLocaleKey(flag.value[0] as Locale)}\`` })),
+                    embed: embed.setDescription(client.translateLocale(flag.value[0] as Locale, "admin.config.success.lang", { locale: `\`${convertLocaleKey(flag.value[0] as Locale)}\`` })),
                     messageReference
                 });
                 break;

@@ -1,6 +1,7 @@
 import { AdvancedMessageContent, ComponentInteraction, EmbedOptions, Message, TextableChannel } from "eris";
 import { Chapter, Manga } from "mangadex-full-api";
 import { MangaCordClient } from "../Client";
+import { GuildModel } from "../Models";
 import { RichEmbed } from "../Util/RichEmbed";
 import moment from "moment";
 
@@ -100,6 +101,8 @@ class MangaReadPaginator {
         const mangaArtist = (await this.manga.artists[0].resolve()).name;
         const genre = this.manga.tags.filter((t) => t.group === "genre").map((tag) => tag.name).join("`, `");
         const theme = this.manga.tags.filter((t) => t.group === "theme").map((tag) => tag.name).join("`, `");
+        const guildModel = GuildModel.createModel(this.client.database);
+        const guildData: GuildModel.Guild = await guildModel.findOne({ id: this.authorMessage.guildID });
 
         this.mangaEmbeds = this.chapters.map((ch) => {
             return new RichEmbed()
@@ -110,7 +113,7 @@ class MangaReadPaginator {
                 .setDescription(this.manga.description)
                 .addField(this.manga.authors.length === 1 ? this.client.translate("manga.author") : this.client.translate("manga.authors"), `\`${mangaAuthor}\``)
                 .addField(this.manga.artists.length === 1 ? this.client.translate("manga.artist") : this.client.translate("manga.artists"), `\`${mangaArtist}\``)
-                .addField(this.client.translate("manga.published"), `\`${this.client.translate("manga.date", { date: moment(ch.publishAt).format("dddd, MMMM Do, YYYY h:mm A") })}\``)
+                .addField(this.client.translate("manga.published"), `\`${this.client.translate("manga.date", { date: moment(ch.publishAt).locale(guildData.settings.locale).format("dddd, MMMM Do, YYYY h:mm A") })}\``)
                 .addField(this.client.translate("manga.genres"), `\`${(genre || this.client.translate("manga.none"))}\``)
                 .addField(this.client.translate("manga.themes"), `\`${(theme || this.client.translate("manga.none"))}\``)
                 .addField(this.client.translate("manga.status"), this.client.translate("manga.status.publication", { status: this.manga.status.charAt(0).toUpperCase() + this.manga.status.slice(1), year: this.manga.year || this.client.translate("manga.unknown") }))

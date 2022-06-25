@@ -60,12 +60,12 @@ class MangaReadPaginator {
                 .setURL(`https://mangadex.org/title/${this.manga.id}`)
                 .setColor(0xED9A00)
                 .setDescription(this.manga.description)
-                .addField(this.manga.authors.length === 1 ? "Author" : "Authors", `\`${mangaAuthor}\``)
-                .addField(this.manga.artists.length === 1 ? "Artist" : "Artists", `\`${mangaArtist}\``)
-                .addField("Published At", `\`${moment(ch.publishAt).format("On dddd, MMMM Do, YYYY h:mm A")}\``)
-                .addField("Genres", `\`${(genre || "None")}\``)
-                .addField("Themes", `\`${(theme || "None")}\``)
-                .addField("Status", `Publication: **${this.manga.year || "Unknown"}**, ${this.manga.status.charAt(0).toUpperCase() + this.manga.status.slice(1)}`)
+                .addField(this.manga.authors.length === 1 ? this.client.translate("manga.author") : this.client.translate("manga.authors"), `\`${mangaAuthor}\``)
+                .addField(this.manga.artists.length === 1 ? this.client.translate("manga.artist") : this.client.translate("manga.artists"), `\`${mangaArtist}\``)
+                .addField(this.client.translate("manga.published"), `\`${this.client.translate("manga.date", { date: moment(ch.publishAt).format("dddd, MMMM Do, YYYY h:mm A") })}\``)
+                .addField(this.client.translate("manga.genres"), `\`${(genre || this.client.translate("manga.none"))}\``)
+                .addField(this.client.translate("manga.themes"), `\`${(theme || this.client.translate("manga.none"))}\``)
+                .addField(this.client.translate("manga.status"), this.client.translate("manga.status.publication", { status: this.manga.status.charAt(0).toUpperCase() + this.manga.status.slice(1), year: this.manga.year || this.client.translate("manga.unknown") }))
                 .setThumbnail(mangaCover[0].image512);
         });
 
@@ -81,25 +81,25 @@ class MangaReadPaginator {
                 .setURL(`https://mangadex.org/chapter/${this.chapter.id}`)
                 .setColor(0xED9A00)
                 .setImage(page)
-                .setFooter(`Page ${index + 1} / ${this.pages.length}`);
+                .setFooter(this.client.translate("manga.page", { firstIndex: index + 1, lastIndex: this.pages.length }));
         });
 
         const messageContent: AdvancedMessageContent = {
             components: [
                 {
                     components: [
-                        { custom_id: `firstpg_${this.invoker.id}`, label: "First Page", style: 1, type: 2 },
-                        { custom_id: `backpg_${this.invoker.id}`, label: "Previous Page", style: 2, type: 2 },
-                        { custom_id: `dismiss_${this.authorMessage.id}`, label: "Dismiss", style: 4, type: 2 },
-                        { custom_id: `nextpg_${this.invoker.id}`, label: "Next Page", style: 2, type: 2 },
-                        { custom_id: `lastpg_${this.invoker.id}`, label: "Last Page", style: 1, type: 2 }
+                        { custom_id: `firstpg_${this.invoker.id}`, label: this.client.translate("manga.page.first"), style: 1, type: 2 },
+                        { custom_id: `backpg_${this.invoker.id}`, label: this.client.translate("manga.page.previous"), style: 2, type: 2 },
+                        { custom_id: `dismiss_${this.authorMessage.id}`, label: this.client.translate("manga.dismiss"), style: 4, type: 2 },
+                        { custom_id: `nextpg_${this.invoker.id}`, label: this.client.translate("manga.page.next"), style: 2, type: 2 },
+                        { custom_id: `lastpg_${this.invoker.id}`, label: this.client.translate("manga.page.latest"), style: 1, type: 2 }
                     ],
                     type: 1
                 },
                 {
                     components: [
-                        { custom_id: `inputpg_${this.invoker.id}`, label: "Enter Page", style: 2, type: 2 },
-                        { custom_id: `home_${this.invoker.id}`, label: "Home", style: 1, type: 2 }
+                        { custom_id: `inputpg_${this.invoker.id}`, label: this.client.translate("manga.page.enter"), style: 2, type: 2 },
+                        { custom_id: `home_${this.invoker.id}`, label: this.client.translate("manga.home"), style: 1, type: 2 }
                     ],
                     type: 1
                 }
@@ -119,31 +119,31 @@ class MangaReadPaginator {
                     components: [
                         {
                             custom_id: `oldch_${this.authorMessage.id}`,
-                            label: "First Chapter",
+                            label: this.client.translate("manga.chapter.first"),
                             style: 1,
                             type: 2
                         },
                         {
                             custom_id: `prevch_${this.authorMessage.id}`,
-                            label: "Previous Chapter",
+                            label: this.client.translate("manga.chapter.previous"),
                             style: 2,
                             type: 2
                         },
                         {
                             custom_id: `read_${this.authorMessage.id}`,
-                            label: "Read",
+                            label: this.client.translate("manga.read"),
                             style: 3,
                             type: 2
                         },
                         {
                             custom_id: `nextch_${this.authorMessage.id}`,
-                            label: "Next Chapter",
+                            label: this.client.translate("manga.chapter.next"),
                             style: 2,
                             type: 2
                         },
                         {
                             custom_id: `newch_${this.authorMessage.id}`,
-                            label: "Latest Chapter",
+                            label: this.client.translate("manga.chapter.latest"),
                             style: 1,
                             type: 2
                         },
@@ -154,19 +154,19 @@ class MangaReadPaginator {
                     components: [
                         {
                             custom_id: `inputch_${this.authorMessage.id}`,
-                            label: "Enter Chapter",
+                            label: this.client.translate("manga.chapter.enter"),
                             style: 2,
                             type: 2
                         },
                         {
                             custom_id: `bookmark_${this.authorMessage.id}`,
-                            label: "Bookmark",
+                            label: this.client.translate("manga.bookmark"),
                             style: 1,
                             type: 2
                         },
                         {
                             custom_id: `dismiss_${this.authorMessage.id}`,
-                            label: "Dismiss",
+                            label: this.client.translate("manga.dismiss"),
                             style: 4,
                             type: 2
                         }
@@ -185,18 +185,18 @@ class MangaReadPaginator {
             components: [
                 {
                     components: [
-                        { custom_id: `firstpg_${this.invoker.id}`, label: "First Page", style: 1, type: 2 },
-                        { custom_id: `backpg_${this.invoker.id}`, label: "Previous Page", style: 2, type: 2 },
-                        { custom_id: `dismiss_${this.authorMessage.id}`, label: "Dismiss", style: 4, type: 2 },
-                        { custom_id: `nextpg_${this.invoker.id}`, label: "Next Page", style: 2, type: 2 },
-                        { custom_id: `lastpg_${this.invoker.id}`, label: "Last Page", style: 1, type: 2 }
+                        { custom_id: `firstpg_${this.invoker.id}`, label: this.client.translate("manga.page.first"), style: 1, type: 2 },
+                        { custom_id: `backpg_${this.invoker.id}`, label: this.client.translate("manga.page.previous"), style: 2, type: 2 },
+                        { custom_id: `dismiss_${this.authorMessage.id}`, label: this.client.translate("manga.dismiss"), style: 4, type: 2 },
+                        { custom_id: `nextpg_${this.invoker.id}`, label: this.client.translate("manga.page.next"), style: 2, type: 2 },
+                        { custom_id: `lastpg_${this.invoker.id}`, label: this.client.translate("manga.page.latest"), style: 1, type: 2 }
                     ],
                     type: 1
                 },
                 {
                     components: [
-                        { custom_id: `inputpg_${this.invoker.id}`, label: "Enter Page", style: 2, type: 2 },
-                        { custom_id: `home_${this.invoker.id}`, label: "Home", style: 1, type: 2 }
+                        { custom_id: `inputpg_${this.invoker.id}`, label: this.client.translate("manga.page.enter"), style: 2, type: 2 },
+                        { custom_id: `home_${this.invoker.id}`, label: this.client.translate("manga.home"), style: 1, type: 2 }
                     ],
                     type: 1
                 }
@@ -245,7 +245,7 @@ class MangaReadPaginator {
                     interaction.createMessage({
                         embeds: [
                             new RichEmbed()
-                                .setDescription(`Manga \`${this.manga.title}\` Successfully saved to your bookmark library!`)
+                                .setDescription(this.client.translate("manga.bookmark.success", { manga: this.manga.title }))
                                 .setColor(0xED9A00)
                         ],
                         flags: 64
@@ -303,7 +303,7 @@ class MangaReadPaginator {
                     interaction.createMessage({
                         embeds: [
                             new RichEmbed()
-                                .setDescription("Please enter the chapter you want to see. You've got **30 seconds** before I ignore you")
+                                .setDescription(this.client.translate("manga.chapter.enter.hint"))
                                 .setColor(0xED9A00)
                         ],
                         flags: 64
@@ -319,7 +319,7 @@ class MangaReadPaginator {
                             interaction.createMessage({
                                 embeds: [
                                     new RichEmbed()
-                                        .setDescription("Please enter a valid chapter")
+                                        .setDescription(this.client.translate("manga.chapter.enter.invalid"))
                                         .setColor(0xED9A00)
                                 ],
                                 flags: 64
@@ -333,11 +333,13 @@ class MangaReadPaginator {
                             interaction.createMessage({
                                 embeds: [
                                     new RichEmbed()
-                                        .setDescription(`Cannot find chapter **${m.content}**. Please provide a valid chapter`)
+                                        .setDescription(this.client.translate("manga.chapter.enter.unknown", { index: m.content }))
                                         .setColor(0xED9A00)
                                 ],
                                 flags: 64
                             });
+
+                            return false;
                         }
                         else return true;
                     };
@@ -353,7 +355,7 @@ class MangaReadPaginator {
                         return interaction.createMessage({
                             embeds: [
                                 new RichEmbed()
-                                    .setDescription("**30 seconds** passed and I've not received any response from you...")
+                                    .setDescription(this.client.translate("manga.timeout"))
                                     .setColor(0xED9A00)
                             ],
                             flags: 64
@@ -365,7 +367,7 @@ class MangaReadPaginator {
                     interaction.createMessage({
                         embeds: [
                             new RichEmbed()
-                                .setDescription(`This manga has a total pages of **${this.pages.length}**. Please enter the chapter you want to see. You've got **30 seconds** before I ignore you`)
+                                .setDescription(this.client.translate("manga.page.enter.hint"))
                                 .setColor(0xED9A00)
                         ],
                         flags: 64
@@ -381,7 +383,7 @@ class MangaReadPaginator {
                             interaction.createMessage({
                                 embeds: [
                                     new RichEmbed()
-                                        .setDescription("Please enter a valid page")
+                                        .setDescription(this.client.translate("manga.page.enter.invalid"))
                                         .setColor(0xED9A00)
                                 ],
                                 flags: 64
@@ -395,11 +397,13 @@ class MangaReadPaginator {
                             interaction.createMessage({
                                 embeds: [
                                     new RichEmbed()
-                                        .setDescription(`This manga only has **1-${this.pages.length}** pages. Please enter a valid page`)
+                                        .setDescription(this.client.translate("manga.page.enter.unknown", { index: m.content }))
                                         .setColor(0xED9A00)
                                 ],
                                 flags: 64
                             });
+
+                            return false;
                         }
 
                         if (parseInt(m.content) > this.pages.length) {
@@ -407,11 +411,13 @@ class MangaReadPaginator {
                             interaction.createMessage({
                                 embeds: [
                                     new RichEmbed()
-                                        .setDescription(`This manga only has **1-${this.pages.length}** pages. Please enter a valid page`)
+                                        .setDescription(this.client.translate("manga.page.enter.unknown", { index: m.content }))
                                         .setColor(0xED9A00)
                                 ],
                                 flags: 64
                             });
+
+                            return false;
                         }
                         else return true;
                     };
@@ -427,7 +433,7 @@ class MangaReadPaginator {
                         return interaction.createMessage({
                             embeds: [
                                 new RichEmbed()
-                                    .setDescription("**30 seconds** passed and I've not received any response from you...")
+                                    .setDescription(this.client.translate("manga.timeout"))
                                     .setColor(0xED9A00)
                             ],
                             flags: 64

@@ -7,9 +7,16 @@ import yargs from "yargs/yargs";
 type Locale = "en" | "id";
 type Setting = "locale";
 
-export async function configCommand(client: MangaCordClient, message: Message<TextableChannel>, args: string[]) {
+/**
+ * Sends `config` command
+ * @param client MangaCord client
+ * @param message Eris message
+ * @param args Message arguments
+ * @returns {Promise<Message<TextableChannel>>}
+ */
+export async function configCommand(client: MangaCordClient, message: Message<TextableChannel>, args: string[]): Promise<Message<TextableChannel>> {
     const embed = new RichEmbed()
-        .setColor(0xED9A00);
+        .setColour(0xED9A00);
 
     const flag = await yargs(args.slice(0)).array(["setting", "value"]).argv;
     const messageReference: MessageReferenceReply = {

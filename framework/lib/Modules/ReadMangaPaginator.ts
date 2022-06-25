@@ -11,30 +11,74 @@ interface MangaReadPayload {
 }
 
 class MangaReadPaginator {
+
+    /**
+     * The message which belongs to the client
+     */
     authorMessage: Message<TextableChannel>;
 
+    /**
+     * The current manga chapter
+     */
     chapter: Chapter;
 
+    /**
+     * An array of manga chapters
+     */
     chapters: Chapter[];
 
+    /**
+     * MangaCord client
+     */
     client: MangaCordClient;
 
+    /**
+     * An array of structured embeds represent the chapter pages
+     */
     embeds: EmbedOptions[];
 
+    /**
+     * The index of the embed used to navigate between chapter pages
+     */
     embed: number;
 
+    /**
+     * The author of the message
+     */
     invoker: Message<TextableChannel>;
 
+    /**
+     * The requested manga
+     */
     manga: Manga;
 
+    /**
+     * The index of the manga embed used to navigate between chapters
+     */
     mangaEmbed: number;
 
+    /**
+     * An array of strucutured embeds represents the manga chapters
+     */
     mangaEmbeds: EmbedOptions[];
 
+    /**
+     * The message of the embed
+     */
     message: Message<TextableChannel>;
 
+    /**
+     * The page images
+     */
     pages: string[];
 
+    /**
+     * Creates a paginator to read manga
+     * @param client MangaCord client
+     * @param payload The manga payload
+     * @param message The client message
+     * @param authorMessage The author of the message
+     */
     constructor(client: MangaCordClient, payload: MangaReadPayload, message: Message<TextableChannel>, authorMessage?: Message<TextableChannel>) {
         this.authorMessage = authorMessage;
         this.chapter = payload.chapter;
@@ -46,7 +90,11 @@ class MangaReadPaginator {
         this.mangaEmbed = this.chapters.map((ch) => ch.chapter).indexOf(this.chapter.chapter);
     }
 
-    async initChapter(): Promise<void> {
+    /**
+     * Initialise all manga chapters
+     * @returns {Promise<void>}
+     */
+    public async initChapter(): Promise<void> {
         const mangaCover = await this.manga.getCovers();
         const mangaAuthor = (await this.manga.authors[0].resolve()).name;
         const mangaArtist = (await this.manga.artists[0].resolve()).name;
@@ -58,7 +106,7 @@ class MangaReadPaginator {
                 .setAuthor(ch.title !== null && ch.title.length !== 0 ? `${ch.title} | Ch. ${ch.chapter}` : `Ch. ${ch.chapter}`, `https://mangadex.org/chapter/${ch.id}`)
                 .setTitle(this.manga.title)
                 .setURL(`https://mangadex.org/title/${this.manga.id}`)
-                .setColor(0xED9A00)
+                .setColour(0xED9A00)
                 .setDescription(this.manga.description)
                 .addField(this.manga.authors.length === 1 ? this.client.translate("manga.author") : this.client.translate("manga.authors"), `\`${mangaAuthor}\``)
                 .addField(this.manga.artists.length === 1 ? this.client.translate("manga.artist") : this.client.translate("manga.artists"), `\`${mangaArtist}\``)
@@ -72,14 +120,17 @@ class MangaReadPaginator {
         this.mangaEmbed = this.chapters.map((ch) => ch.chapter).indexOf(this.chapter.chapter);
     }
 
-    async init(): Promise<void> {
+    /**
+     * Initialise all chapter pages
+     */
+    public async init(): Promise<void> {
         this.pages = await this.chapter.getReadablePages();
         this.embeds = this.pages.map((page, index) => {
             return new RichEmbed()
                 .setAuthor(this.manga.title, `https://mangadex.org/title/${this.manga.id}`)
                 .setTitle(this.chapter.title !== null && this.chapter.title.length !== 0 ? `${this.chapter.title} | Ch. ${this.chapter.chapter}` : `Ch. ${this.chapter.chapter}`)
                 .setURL(`https://mangadex.org/chapter/${this.chapter.id}`)
-                .setColor(0xED9A00)
+                .setColour(0xED9A00)
                 .setImage(page)
                 .setFooter(this.client.translate("manga.page", { firstIndex: index + 1, lastIndex: this.pages.length }));
         });
@@ -112,7 +163,11 @@ class MangaReadPaginator {
         }
     }
 
-    updateChapter(): void {
+    /**
+     * Update the manga chapter
+     * @returns {void}
+     */
+    public updateChapter(): void {
         this.invoker.edit({
             components: [
                 {
@@ -180,7 +235,11 @@ class MangaReadPaginator {
         this.chapter = this.chapters[this.mangaEmbed];
     }
 
-    updatePage(): void {
+    /**
+     * Update the chapter page
+     * @returns {void}
+     */
+    public updatePage(): void {
         this.message.edit({
             components: [
                 {
@@ -205,6 +264,10 @@ class MangaReadPaginator {
         });
     }
 
+    /**
+     * Initialise all `interactionCreate` event 
+     * @returns {Promise<void>}
+     */
     async run(): Promise<void> {
         this.client.on("interactionCreate", async (interaction: ComponentInteraction<TextableChannel>) => {
             if (interaction.member.bot) return;
@@ -246,7 +309,7 @@ class MangaReadPaginator {
                         embeds: [
                             new RichEmbed()
                                 .setDescription(this.client.translate("manga.bookmark.success", { manga: this.manga.title }))
-                                .setColor(0xED9A00)
+                                .setColour(0xED9A00)
                         ],
                         flags: 64
                     });
@@ -304,7 +367,7 @@ class MangaReadPaginator {
                         embeds: [
                             new RichEmbed()
                                 .setDescription(this.client.translate("manga.chapter.enter.hint"))
-                                .setColor(0xED9A00)
+                                .setColour(0xED9A00)
                         ],
                         flags: 64
                     });
@@ -320,7 +383,7 @@ class MangaReadPaginator {
                                 embeds: [
                                     new RichEmbed()
                                         .setDescription(this.client.translate("manga.chapter.enter.invalid"))
-                                        .setColor(0xED9A00)
+                                        .setColour(0xED9A00)
                                 ],
                                 flags: 64
                             });
@@ -334,7 +397,7 @@ class MangaReadPaginator {
                                 embeds: [
                                     new RichEmbed()
                                         .setDescription(this.client.translate("manga.chapter.enter.unknown", { index: m.content }))
-                                        .setColor(0xED9A00)
+                                        .setColour(0xED9A00)
                                 ],
                                 flags: 64
                             });
@@ -356,7 +419,7 @@ class MangaReadPaginator {
                             embeds: [
                                 new RichEmbed()
                                     .setDescription(this.client.translate("manga.timeout"))
-                                    .setColor(0xED9A00)
+                                    .setColour(0xED9A00)
                             ],
                             flags: 64
                         });
@@ -368,7 +431,7 @@ class MangaReadPaginator {
                         embeds: [
                             new RichEmbed()
                                 .setDescription(this.client.translate("manga.page.enter.hint"))
-                                .setColor(0xED9A00)
+                                .setColour(0xED9A00)
                         ],
                         flags: 64
                     });
@@ -384,7 +447,7 @@ class MangaReadPaginator {
                                 embeds: [
                                     new RichEmbed()
                                         .setDescription(this.client.translate("manga.page.enter.invalid"))
-                                        .setColor(0xED9A00)
+                                        .setColour(0xED9A00)
                                 ],
                                 flags: 64
                             });
@@ -398,7 +461,7 @@ class MangaReadPaginator {
                                 embeds: [
                                     new RichEmbed()
                                         .setDescription(this.client.translate("manga.page.enter.unknown", { index: m.content }))
-                                        .setColor(0xED9A00)
+                                        .setColour(0xED9A00)
                                 ],
                                 flags: 64
                             });
@@ -412,7 +475,7 @@ class MangaReadPaginator {
                                 embeds: [
                                     new RichEmbed()
                                         .setDescription(this.client.translate("manga.page.enter.unknown", { index: m.content }))
-                                        .setColor(0xED9A00)
+                                        .setColour(0xED9A00)
                                 ],
                                 flags: 64
                             });
@@ -434,7 +497,7 @@ class MangaReadPaginator {
                             embeds: [
                                 new RichEmbed()
                                     .setDescription(this.client.translate("manga.timeout"))
-                                    .setColor(0xED9A00)
+                                    .setColour(0xED9A00)
                             ],
                             flags: 64
                         });
@@ -446,7 +509,15 @@ class MangaReadPaginator {
     }
 }
 
-export function createMangaRead(client: MangaCordClient, payload: MangaReadPayload, message: Message<TextableChannel>, authorMessage?: Message<TextableChannel>) {
+/**
+ * Creates a paginator to read manga
+ * @param client MangaCord client
+ * @param payload The manga payload
+ * @param message The client message
+ * @param authorMessage The author of the message
+ * @returns {Promise<Message<TextableChannel>>}
+ */
+export function createMangaRead(client: MangaCordClient, payload: MangaReadPayload, message: Message<TextableChannel>, authorMessage?: Message<TextableChannel>): Promise<Message<TextableChannel>> {
     const paginator = new MangaReadPaginator(client, payload, message, authorMessage);
 
     paginator.run();

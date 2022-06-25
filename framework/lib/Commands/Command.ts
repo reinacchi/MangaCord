@@ -10,29 +10,53 @@ export class MangaCordCommand {
 
     private args: string[];
 
+    /**
+     * Load all command modules
+     * @param payload The data payload
+     */
     constructor(payload: CommandRunPayload) {
         this.args = payload.args;
         this.client = payload.client;
         this.message = payload.message;
     }
 
-    public aboutCommand() {
+    /**
+     * About Command
+     * @returns {Promise<Message<TextableChannel>>}
+     */
+    public aboutCommand(): Promise<Message<TextableChannel>> {
         return CommandModules.aboutCommand(this.client, this.message);
     }
 
-    public configCommand() {
+    /**
+     * Config Command
+     * @returns {Promise<Message<TextableChannel>>}
+     */
+    public configCommand(): Promise<Message<TextableChannel>> {
         return CommandModules.configCommand(this.client, this.message, this.args);
     }
 
-    public pingCommand() {
+    /**
+     * Ping Command
+     * @returns {Promise<Message<TextableChannel>>}
+     */
+    public pingCommand(): Promise<Message<TextableChannel>> {
         return CommandModules.pingCommand(this.client, this.message);
     }
 
-    public readMangaCommand() {
+    /**
+     * Read Manga Command
+     * @returns {Promise<Message<TextableChannel>>}
+     */
+    public readMangaCommand(): Promise<Message<TextableChannel>> {
         return CommandModules.readMangaCommand(this.client, this.message, this.args);
     }
 
-    public searchMangaCommand() {
+    /**
+     * Search Manga Command
+     * @returns {Promise<Message<TextableChannel>>}
+     */
+    public searchMangaCommand(): Promise<Message<TextableChannel>> {
         return CommandModules.readMangaCommand(this.client, this.message, this.args);
     }
 }

@@ -3,7 +3,14 @@ import { Manga } from "mangadex-full-api";
 import { Message, MessageReferenceReply, TextableChannel } from "eris";
 import { RichEmbed } from "../../Util";
 
-export async function searchMangaCommand(client: MangaCordClient, message: Message<TextableChannel>, args: string[]) {
+/**
+ * Sends `search` command
+ * @param client MangaCord client
+ * @param message Eris message
+ * @param args Message arguments
+ * @returns {Promise<Message<TextableChannel>>}
+ */
+export async function searchMangaCommand(client: MangaCordClient, message: Message<TextableChannel>, args: string[]): Promise<Message<TextableChannel>> {
     const query = args.slice(0).join(" ");
     const mangaResults = await Manga.search({ title: query });
     const manga = mangaResults[0];
@@ -17,7 +24,7 @@ export async function searchMangaCommand(client: MangaCordClient, message: Messa
     const embed = new RichEmbed()
         .setAuthor(mangaResults.length === 1 ? client.translate("manga.result", { firstIndex: 1, lastIndex: 2 }) : client.translate("manga.result", { firstIndex: 1, lastIndex: mangaResults.length } ))
         .setURL(`https://mangadex.org/title/${manga.id}`)
-        .setColor(0xED9A00)
+        .setColour(0xED9A00)
         .setDescription(manga.description)
         .addField(manga.authors.length === 1 ? client.translate("manga.author") : client.translate("manga.authors"), `\`${author}\``)
         .addField(manga.artists.length === 1 ? client.translate("manga.artist") : client.translate("manga.artists"), `\`${artist}\``)

@@ -6,7 +6,7 @@ import { Logger } from "./Util";
 import { MangaCordDatabase } from "./Database";
 import { join } from "path";
 import { readdirSync } from "fs";
-import { use } from "i18next";
+import { t, use } from "i18next";
 import i18nNextICU from "i18next-icu";
 import { MessageCollector, MessageCollectorOptions } from "./Util/MessageCollector";
 import { MangaCordManager } from "./Manager";
@@ -134,8 +134,12 @@ export class MangaCordClient extends Client {
     }
 
     /* @ts-ignore */
-    public async translate(key: string | string[], variable?: object): Promise<string>;
+    public translate(key: string | string[], variable?: object): string;
 
     /* @ts-ignore */
-    public async translateLocale(locale: AvailableLocale, key: string | string[], variable?: object): Promise<string>;
+    public translateLocale(locale: AvailableLocale, key: string | string[], variable?: object) {
+        this.initLocale(locale);
+
+        return t(key, variable);
+    }
 }

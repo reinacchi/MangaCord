@@ -6,7 +6,7 @@ import { Logger } from "./Util";
 import { MangaCordDatabase } from "./Database";
 import { join } from "path";
 import { readdirSync } from "fs";
-import { t, use } from "i18next";
+import { t, TFunction, use } from "i18next";
 import i18nNextICU from "i18next-icu";
 import { MessageCollector, MessageCollectorOptions } from "./Util/MessageCollector";
 import { MangaCordManager } from "./Manager";
@@ -23,23 +23,51 @@ interface InitClientOptions {
 }
 
 export class MangaCordClient extends Client {
-    public commands = new Collection<Command>();
 
+    /**
+     * Collection of commands
+     */
+    public commands: Collection<Command> = new Collection<Command>();
+
+    /**
+     * The bot's configuration value
+     */
     public config: Config;
 
+    /**
+     * MongoDB database connection
+     */
     public database: Connection;
 
-    public events = new Collection<Event>();
+    /**
+     * Collection of gateway events
+     */
+    public events: Collection<Event> = new Collection<Event>();
 
-    public logger = new Logger();
+    /**
+     * Logger
+     */
+    public logger: Logger = new Logger();
 
-    public manager = new MangaCordManager(this);
+    /**
+     * The client's manager to manage stuff
+     */
+    public manager: MangaCordManager = new MangaCordManager(this);
 
-    public awaitChannelMessages(channel: TextableChannel, options: MessageCollectorOptions) {
+    /**
+     * Collect messages in a channel
+     * @param channel The text-channel to collect messages
+     * @param options Message collector options
+     * @returns {Promise<MessageCollector>}
+     */
+    public awaitChannelMessages(channel: TextableChannel, options: MessageCollectorOptions): Promise<MessageCollector> {
         return new MessageCollector(channel, options).run();
     }
 
-    public initAllEvents() {
+    /**
+     * Initialise everything
+     */
+    public initAllEvents(): void {
         this.initCommands();
         this.initErrorEvent();
         this.initGuildCreateEvent();
@@ -54,7 +82,11 @@ export class MangaCordClient extends Client {
         }, 300);
     }
 
-    public initClient(options: InitClientOptions) {
+    /**
+     * Initialise MangaCord extended client
+     * @param options Client options
+     */
+    public initClient(options: InitClientOptions): void {
         this.connect();
         this.database = new MangaCordDatabase(`mongodb+srv://${this.config.MONGODB.HOST}/${this.config.MONGODB.NAME}`).connect();
 
@@ -63,7 +95,10 @@ export class MangaCordClient extends Client {
         }
     }
 
-    public initCommands() {
+    /**
+     * Load all commands
+     */
+    public initCommands(): void {
         const commandPath = join(__dirname, "..", "..", "bot", "src", "Commands");
 
         readdirSync(commandPath).forEach(async (dir) => {
@@ -78,7 +113,10 @@ export class MangaCordClient extends Client {
 
     }
 
-    public async initErrorEvent() {
+    /**
+     * Load `error` event
+     */
+    public async initErrorEvent(): Promise<void> {
         const path = join(__dirname, "Events", "Error.js");
         const { event } = await import(path);
 
@@ -86,7 +124,10 @@ export class MangaCordClient extends Client {
         this.on(event.name, event.run.bind(null, this));
     }
 
-    public async initGuildCreateEvent() {
+    /**
+     * Load `guildCreate` event
+     */
+    public async initGuildCreateEvent(): Promise<void> {
         const path = join(__dirname, "Events", "GuildCreate.js");
         const { event } = await import(path);
 
@@ -94,7 +135,12 @@ export class MangaCordClient extends Client {
         this.on(event.name, event.run.bind(null, this));
     }
 
-    public initLocale(locale: AvailableLocale) {
+    /**
+     * Load all available locales
+     * @param locale The available language to use
+     * @returns {Promise<TFunction>}
+     */
+    public initLocale(locale: AvailableLocale): Promise<TFunction> {
         return use(i18nNextICU).init({
             fallbackLng: "en",
             lng: locale,
@@ -109,7 +155,10 @@ export class MangaCordClient extends Client {
         });
     }
 
-    public async initMessageCreateEvent() {
+    /**
+     * Load `messageCreate` event
+     */
+    public async initMessageCreateEvent(): Promise<void> {
         const path = join(__dirname, "Events", "MessageCreate.js");
         const { event } = await import(path);
 
@@ -117,7 +166,10 @@ export class MangaCordClient extends Client {
         this.on(event.name, event.run.bind(null, this));
     }
 
-    public async initReadyEvent() {
+    /**
+     * Load `ready` event
+     */
+    public async initReadyEvent(): Promise<void> {
         const path = join(__dirname, "Events", "Ready.js");
         const { event } = await import(path);
 
@@ -125,7 +177,10 @@ export class MangaCordClient extends Client {
         this.on(event.name, event.run.bind(null, this));
     }
 
-    public async initShardReadyEvent() {
+    /**
+     * Load `shardPreReady` event
+     */
+    public async initShardReadyEvent(): Promise<void> {
         const path = join(__dirname, "Events", "ShardPreReady.js");
         const { event } = await import(path);
 
@@ -133,11 +188,22 @@ export class MangaCordClient extends Client {
         this.on(event.name, event.run.bind(null, this));
     }
 
-    /* @ts-ignore */
+    /**
+     * Translate keys
+     * @param key The translation key
+     * @param variable Set the variable's value
+     */
     public translate(key: string | string[], variable?: object): string;
 
+    /**
+     * Translate keys based on requested locale
+     * @param locale The requested locale
+     * @param key The translation key
+     * @param variable Set the variables' value
+     * @returns {String}
+     */
     /* @ts-ignore */
-    public translateLocale(locale: AvailableLocale, key: string | string[], variable?: object) {
+    public translateLocale(locale: AvailableLocale, key: string | string[], variable?: object): string {
         this.initLocale(locale);
 
         return t(key, variable);

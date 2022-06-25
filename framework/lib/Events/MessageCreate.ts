@@ -4,6 +4,7 @@ import { Message, TextableChannel } from "eris";
 import { GuildModel, UserModel } from "../Models";
 import { Guild } from "../Models/Guild";
 import { User } from "../Models/User";
+import { t } from "i18next";
 
 export const event: Event = {
     name: "messageCreate",
@@ -40,18 +41,15 @@ export const event: Event = {
         const command = client.commands.get(commandName);
 
         // Implement localisation logic
-        client.translate = async function (key, variable) {
+        client.translate = function (key, variable) {
             const selectedLocale = guildData.settings.locale;
-            const $t = await client.initLocale(selectedLocale);
 
-            return $t(key, variable);
+            client.initLocale(selectedLocale);
+
+            return t(key, variable);
         };
 
-        client.translateLocale = async function (locale, key, variable) {
-            const $t = await client.initLocale(locale);
 
-            return $t(key, variable);
-        };
 
         if (!command) return;
 

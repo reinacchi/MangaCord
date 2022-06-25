@@ -22,7 +22,7 @@ export class RichEmbed {
     /**
      * The colour of the embed
      */
-    colour: number;
+    color: number;
 
     /**
      * The description of the embed
@@ -73,7 +73,7 @@ export class RichEmbed {
         if (data.description) this.description = data.description;
         if (data.url) this.url = data.url;
         if (data.timestamp) this.timestamp = data.timestamp;
-        if (data.color) this.colour = data.color;
+        if (data.color) this.color = data.color;
         if (data.footer) this.footer = data.footer;
         if (data.image) this.image = data.image;
         if (data.thumbnail) this.thumbnail = data.thumbnail;
@@ -143,7 +143,7 @@ export class RichEmbed {
             this.author?.name === embed.author?.name &&
             this.author?.url === embed.author?.url &&
             this.author?.icon_url === (embed.author?.icon_url ?? embed.author?.icon_url) &&
-            this.colour === embed.color &&
+            this.color === embed.color &&
             this.title === embed.title &&
             this.description === embed.description &&
             this.url === embed.url &&
@@ -235,12 +235,12 @@ export class RichEmbed {
             );
 
         if (typeof colour === "number") {
-            if (colour > 16777215 || colour < 0) throw new RangeError("Invalid color");
-            this.colour = colour;
+            if (colour > 16777215 || colour < 0) throw new RangeError("Invalid colour");
+            this.color = colour;
         } else {
             const match = colour.match(HEX_REGEX);
-            if (!match) throw new Error("Invalid color");
-            this.colour = parseInt(match[1], 16);
+            if (!match) throw new Error("Invalid colour");
+            this.color = parseInt(match[1], 16);
         }
 
         return this;

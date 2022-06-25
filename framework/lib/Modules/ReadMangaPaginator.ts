@@ -77,7 +77,7 @@ class MangaReadPaginator {
         this.embeds = this.pages.map((page, index) => {
             return new RichEmbed()
                 .setAuthor(this.manga.title, `https://mangadex.org/title/${this.manga.id}`)
-                .setTitle( this.chapter.title !== null && this.chapter.title.length !== 0 ? `${this.chapter.title} | Ch. ${this.chapter.chapter}` : `Ch. ${this.chapter.chapter}`)
+                .setTitle(this.chapter.title !== null && this.chapter.title.length !== 0 ? `${this.chapter.title} | Ch. ${this.chapter.chapter}` : `Ch. ${this.chapter.chapter}`)
                 .setURL(`https://mangadex.org/chapter/${this.chapter.id}`)
                 .setColor(0xED9A00)
                 .setImage(page)

@@ -35,5 +35,6 @@
     "manga.status.publication": "Publication: **{year}**, {status}",
     "manga.themes": "Themes",
     "manga.timeout": "**30 seconds** has passed and I received no response from you",
-    "manga.unknown": "Unknown"
+    "manga.unknown": "Unknown",
+    "manga.uploader": "Uploader"
 }

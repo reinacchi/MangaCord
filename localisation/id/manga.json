@@ -35,5 +35,6 @@
     "manga.status.publication": "Publikasi: **{year}**, {status}",
     "manga.themes": "Tema",
     "manga.timeout": "**30 detik** telah lewat dan saya tidak menerima respon dari anda",
-    "manga.unknown": "Tidak Diketahui"
+    "manga.unknown": "Tidak Diketahui",
+    "manga.uploader": "Pengunggah"
 }

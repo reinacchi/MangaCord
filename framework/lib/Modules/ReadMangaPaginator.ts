@@ -61,7 +61,7 @@ class MangaReadPaginator {
     /**
      * An array of strucutured embeds represents the manga chapters
      */
-    mangaEmbeds: EmbedOptions[];
+    mangaEmbeds: Promise<EmbedOptions>[];
 
     /**
      * The message of the embed
@@ -98,27 +98,33 @@ class MangaReadPaginator {
     public async initChapter(): Promise<void> {
         const mangaCover = await this.manga.getCovers();
         const mangaAuthor = (await this.manga.authors[0].resolve()).name;
+        const mangaAuthorID = (await this.manga.authors[0].resolve()).id;
         const mangaArtist = (await this.manga.artists[0].resolve()).name;
+        const mangaArtistID = (await this.manga.artists[0].resolve()).id;
         const genre = this.manga.tags.filter((t) => t.group === "genre").map((tag) => tag.name).join("`, `");
         const theme = this.manga.tags.filter((t) => t.group === "theme").map((tag) => tag.name).join("`, `");
         const guildModel = GuildModel.createModel(this.client.database);
         const guildData: GuildModel.Guild = await guildModel.findOne({ id: this.authorMessage.guildID });
 
-        this.mangaEmbeds = this.chapters.map((ch) => {
+        this.mangaEmbeds = this.chapters.map(async (ch) => {
+            const group = (await ch.groups[0].resolve()).name;
+            const groupID = (await ch.groups[0].resolve()).id
+
             return new RichEmbed()
                 .setAuthor(ch.title !== null && ch.title.length !== 0 ? `${ch.title} | Ch. ${ch.chapter}` : `Ch. ${ch.chapter}`, `https://mangadex.org/chapter/${ch.id}`)
                 .setTitle(this.manga.title)
                 .setURL(`https://mangadex.org/title/${this.manga.id}`)
                 .setColour(0xED9A00)
                 .setDescription(this.manga.description)
-                .addField(this.manga.authors.length === 1 ? this.client.translate("manga.author") : this.client.translate("manga.authors"), `\`${mangaAuthor}\``)
-                .addField(this.manga.artists.length === 1 ? this.client.translate("manga.artist") : this.client.translate("manga.artists"), `\`${mangaArtist}\``)
+                .addField(this.manga.authors.length === 1 ? this.client.translate("manga.author") : this.client.translate("manga.authors"), `[\`${mangaAuthor}\`](https://mangadex.org/author/${mangaAuthorID})`)
+                .addField(this.manga.artists.length === 1 ? this.client.translate("manga.artist") : this.client.translate("manga.artists"), `[\`${mangaArtist}\`](https://mangadex.org/author/${mangaArtistID})`)
                 .addField(this.client.translate("manga.published"), `\`${this.client.translate("manga.date", { date: moment(ch.publishAt).locale(guildData.settings.locale).format("dddd, MMMM Do, YYYY h:mm A") })}\``)
+                .addField(this.client.translate("manga.uploader"), group ? `[\`${group}\`](https://mangadex.org/group/${groupID})` : `\`${this.client.translate("manga.unknown")}\``)
                 .addField(this.client.translate("manga.genres"), `\`${(genre || this.client.translate("manga.none"))}\``)
                 .addField(this.client.translate("manga.themes"), `\`${(theme || this.client.translate("manga.none"))}\``)
                 .addField(this.client.translate("manga.status"), this.client.translate("manga.status.publication", { status: this.manga.status.charAt(0).toUpperCase() + this.manga.status.slice(1), year: this.manga.year || this.client.translate("manga.unknown") }))
                 .setThumbnail(mangaCover[0].image512);
-        });
+        })  
 
         this.mangaEmbed = this.chapters.map((ch) => ch.chapter).indexOf(this.chapter.chapter);
     }
@@ -170,7 +176,7 @@ class MangaReadPaginator {
      * Update the manga chapter
      * @returns {void}
      */
-    public updateChapter(): void {
+    public async updateChapter(): Promise<void> {
         this.invoker.edit({
             components: [
                 {
@@ -232,7 +238,7 @@ class MangaReadPaginator {
                     type: 1
                 }
             ],
-            embed: this.mangaEmbeds[this.mangaEmbed]
+            embed: await this.mangaEmbeds[this.mangaEmbed]
         });
 
         this.chapter = this.chapters[this.mangaEmbed];

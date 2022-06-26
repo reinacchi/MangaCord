@@ -70,6 +70,7 @@ export class MangaCordClient extends Client {
     public initAllEvents(): void {
         this.initCommands();
         this.initErrorEvent();
+        this.initDebugEvent();
         this.initGuildCreateEvent();
         this.initMessageCreateEvent();
         this.initReadyEvent();
@@ -118,6 +119,14 @@ export class MangaCordClient extends Client {
      */
     public async initErrorEvent(): Promise<void> {
         const path = join(__dirname, "Events", "Error.js");
+        const { event } = await import(path);
+
+        this.events.set(event.name, event);
+        this.on(event.name, event.run.bind(null, this));
+    }
+
+    public async initDebugEvent(): Promise<void> {
+        const path = join(__dirname, "Events", "Debug.js");
         const { event } = await import(path);
 
         this.events.set(event.name, event);

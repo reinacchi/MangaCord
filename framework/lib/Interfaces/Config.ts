@@ -10,7 +10,8 @@ interface ConfigAPIDiscordAuth {
 }
 
 interface ConfigBot {
-    ADMIN: Array<string>;
+    ADMIN: string[];
+    DEBUG_MODE: boolean;
     PREFIX: string;
     TOKEN: string;
 }

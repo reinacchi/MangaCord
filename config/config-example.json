@@ -8,6 +8,7 @@
     },
     "BOT": {
         "ADMIN": ["Your Discord user ID"],
+        "DEBUG_MODE": false,
         "PREFIX": "m!",
         "TOKEN": "Your Discord bot token"
     },

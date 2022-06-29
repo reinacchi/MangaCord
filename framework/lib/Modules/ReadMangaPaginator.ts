@@ -61,7 +61,7 @@ class MangaReadPaginator {
     /**
      * An array of strucutured embeds represents the manga chapters
      */
-    mangaEmbeds: Promise<EmbedOptions>[];
+    mangaEmbeds: EmbedOptions[];
 
     /**
      * The message of the embed
@@ -106,10 +106,7 @@ class MangaReadPaginator {
         const guildModel = GuildModel.createModel(this.client.database);
         const guildData: GuildModel.Guild = await guildModel.findOne({ id: this.authorMessage.guildID });
 
-        this.mangaEmbeds = this.chapters.map(async (ch) => {
-            const group = (await ch.groups[0].resolve()).name;
-            const groupID = (await ch.groups[0].resolve()).id
-
+        this.mangaEmbeds = this.chapters.map((ch) => {
             return new RichEmbed()
                 .setAuthor(ch.title !== null && ch.title.length !== 0 ? `${ch.title} | Ch. ${ch.chapter}` : `Ch. ${ch.chapter}`, `https://mangadex.org/chapter/${ch.id}`)
                 .setTitle(this.manga.title)
@@ -119,7 +116,6 @@ class MangaReadPaginator {
                 .addField(this.manga.authors.length === 1 ? this.client.translate("manga.author") : this.client.translate("manga.authors"), `[\`${mangaAuthor}\`](https://mangadex.org/author/${mangaAuthorID})`)
                 .addField(this.manga.artists.length === 1 ? this.client.translate("manga.artist") : this.client.translate("manga.artists"), `[\`${mangaArtist}\`](https://mangadex.org/author/${mangaArtistID})`)
                 .addField(this.client.translate("manga.published"), `\`${this.client.translate("manga.date", { date: moment(ch.publishAt).locale(guildData.settings.locale).format("dddd, MMMM Do, YYYY h:mm A") })}\``)
-                .addField(this.client.translate("manga.uploader"), group ? `[\`${group}\`](https://mangadex.org/group/${groupID})` : `\`${this.client.translate("manga.unknown")}\``)
                 .addField(this.client.translate("manga.genres"), `\`${(genre || this.client.translate("manga.none"))}\``)
                 .addField(this.client.translate("manga.themes"), `\`${(theme || this.client.translate("manga.none"))}\``)
                 .addField(this.client.translate("manga.status"), this.client.translate("manga.status.publication", { status: this.manga.status.charAt(0).toUpperCase() + this.manga.status.slice(1), year: this.manga.year || this.client.translate("manga.unknown") }))
@@ -176,7 +172,7 @@ class MangaReadPaginator {
      * Update the manga chapter
      * @returns {void}
      */
-    public async updateChapter(): Promise<void> {
+    public updateChapter(): void {
         this.invoker.edit({
             components: [
                 {
@@ -238,7 +234,7 @@ class MangaReadPaginator {
                     type: 1
                 }
             ],
-            embed: await this.mangaEmbeds[this.mangaEmbed]
+            embed: this.mangaEmbeds[this.mangaEmbed]
         });
 
         this.chapter = this.chapters[this.mangaEmbed];

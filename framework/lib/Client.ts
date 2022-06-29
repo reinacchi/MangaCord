@@ -10,8 +10,8 @@ import { t, TFunction, use } from "i18next";
 import i18nNextICU from "i18next-icu";
 import { MessageCollector, MessageCollectorOptions } from "./Util/MessageCollector";
 import { MangaCordManager } from "./Manager";
-import localeEN from "./locales/en.json";
-import localeID from "./locales/id.json";
+import localeEN from "./Locales/en.json";
+import localeID from "./Locales/id.json";
 
 type AvailableLocale = "en" | "id";
 

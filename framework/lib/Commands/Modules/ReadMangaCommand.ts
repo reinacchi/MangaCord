@@ -26,8 +26,6 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
     const artistID = (await manga.artists[0].resolve()).id;
     const genre = manga.tags.filter((t) => t.group === "genre").map((t) => t.name).join("`, `");
     const theme = manga.tags.filter((t) => t.group === "theme").map((t) => t.name).join("`, `");
-    const group = (await chapter.groups[0].resolve()).name;
-    const groupID = (await chapter.groups[0].resolve()).id;
     const guildModel = GuildModel.createModel(client.database);
     const guildData: GuildModel.Guild = await guildModel.findOne({ id: message.guildID });
     const payload = { chapter, chapters, manga };
@@ -103,7 +101,6 @@ export async function readMangaCommand(client: MangaCordClient, message: Message
         .addField(manga.authors.length === 1 ? client.translate("manga.author") : client.translate("manga.authors"), `[\`${author}\`](https://mangadex.org/author/${authorID})`)
         .addField(manga.artists.length === 1 ? client.translate("manga.artist") : client.translate("manga.artists"), `[\`${artist}\`](https://mangadex.org/author/${artistID})`)
         .addField(client.translate("manga.published"), `\`${client.translate("manga.date", { date: moment(chapter.publishAt).locale(guildData.settings.locale).format("dddd, MMMM Do, YYYY h:mm A") })}\``)
-        .addField(client.translate("manga.uploader"), group ? `[\`${group}\`](https://mangadex.org/group/${groupID})` : `\`${client.translate("manga.unknown")}\``)
         .addField(client.translate("manga.genres"), `\`${genre || client.translate("manga.none")}\``)
         .addField(client.translate("manga.themes"), `\`${theme || client.translate("manga.none")}\``)
         .addField(client.translate("manga.status"), client.translate("manga.status.publication", { status: manga.status.charAt(0).toUpperCase() + manga.status.slice(1), year: manga.year || client.translate("manga.unknown") }))

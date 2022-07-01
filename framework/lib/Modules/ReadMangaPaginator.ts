@@ -273,14 +273,14 @@ class MangaReadPaginator {
      * Initialise all `interactionCreate` event 
      * @returns {Promise<void>}
      */
-    async run(): Promise<void> {
+    public async run(): Promise<void> {
         this.client.on("interactionCreate", async (interaction: ComponentInteraction<TextableChannel>) => {
             if (interaction.member.bot) return;
 
             switch (interaction.data.custom_id) {
                 case `read_${this.authorMessage.id}`:
                     interaction.acknowledge();
-                    this.init();
+                    await this.init();
                     break;
                 case `nextpg_${this.invoker.id}`:
                     interaction.acknowledge();

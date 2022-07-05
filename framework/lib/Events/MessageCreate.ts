@@ -40,7 +40,7 @@ export const event: Event = {
         const commandName = messageArray[0].slice(client.config.BOT.PREFIX.length);
         const command = client.commands.get(commandName);
 
-        // Implement localisation logic
+        // Implement localisation logic per guild
         client.translate = function (key, variable) {
             const selectedLocale = guildData.settings.locale;
 
@@ -48,8 +48,6 @@ export const event: Event = {
 
             return t(key, variable);
         };
-
-
 
         if (!command) return;
 
